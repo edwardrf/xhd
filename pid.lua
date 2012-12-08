@@ -1,0 +1,6 @@
+os.execute("lua sleep.lua & \necho $! > sleep.pid")
+local f = io.open("sleep.pid")
+local pid = f:read("*all")
+print(pid)
+os.execute("sleep 1")
+os.execute("kill " .. pid)
