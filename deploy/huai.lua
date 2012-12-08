@@ -119,6 +119,7 @@ function auto_loop()
 		if ch == 'q' or ch == '\4' then
 			set_speed(90)
 			set_steer(90)
+			end_pid()
 			break
 		elseif ch == CMD_DN then
 			-- Quick break of the current action
