@@ -49,7 +49,7 @@ function irDist(reading)
 end
 
 function irDistLong(reading)
-    distance = 2.26723728 * (20000.0 / ((reading * 4.8828125) - 200)) - 1.498811222
+    distance = 30431 * reading ^ -1.169
     if distance < 0 then distance = 1000 end
     return distance
 end

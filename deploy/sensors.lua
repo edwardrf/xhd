@@ -1,5 +1,6 @@
 require "arduino"
 require "helpers"
+require "kalman"
 
 init_arduino()
 -- Get enough initial readings
@@ -12,16 +13,19 @@ server:settimeout(0)
 os.execute("clear")
 cursor(30, 1)
 
+local l, r, f, ll, lr, lf, dl, dr, df, cnt, kl, kr, kf
 
-local l, r, f, ll, lr, lf, dl, dr, df, cnt
+kl = Kalman()
+kr = Kalman()
+kf = Kalman()
 
 cnt = 0
 while true do
 	-- Non blocking update reading
 	if update_readings() then
-		dl = irDist(get_analog(3))
-		dr = irDist(get_analog(1))
-		df = irDistLong(get_analog(2))
+		dl = irDist(kl:step(0, get_analog(3)))
+		dr = irDist(kr:step(0, get_analog(1)))
+		df = irDistLong(kf:step(0, get_analog(2)))
 		l = math.floor(dl / 4 + 0.5)
 		r = math.floor(dr / 4 + 0.5)
 		f = math.floor(df / 7 + 0.5)

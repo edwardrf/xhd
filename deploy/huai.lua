@@ -147,15 +147,16 @@ function auto_loop()
 		elseif f > 90 then
 			speed = 105
 		elseif f > 70 then
+			if l < 50 then steer = 60 end
 			speed = 98
-		elseif f < 30 then
+		elseif f < 40 then
 			-- Reverse when it is too near, flip the steering
 			speed = 70
 			steer = 180 - steer
 			reverse_flag = true
 		else -- Else, turn right
 			speed = 98
-			steer = 70
+			steer = 60
 		end
 
 		if steer < 60 then steer = 60 end
@@ -182,3 +183,4 @@ set_speed(90)
 set_steer(90)
 cmd_loop()
 kill(pid)
+os.execute("arduino_reset")
