@@ -5,6 +5,7 @@ require "socket"
 require "helpers"
 require "arduino"
 require "pid"
+require "regression"
 
 CMD_UP = '\27[A'
 CMD_DN = '\27[B'
@@ -15,6 +16,7 @@ CMD_RT = '\27[C'
 local speed = 90
 local steer = 90
 local last_speed, last_steer
+local hf = {0}
 
 local pid = fork("lua sensors.lua")
 
@@ -135,6 +137,9 @@ function auto_loop()
 		local f = tonumber(readings[2])
 		local r = tonumber(readings[3])
 
+		table.insert(hf, f)
+		if table.getn(hf) > 30 then table.remove(hf, 1) end
+
 		-- Main logic
 		-- PID steer for left side wall following
 		local reverse_flag = false
@@ -159,12 +164,17 @@ function auto_loop()
 			steer = 60
 		end
 
+		local b, r = regression(hf)
+		if b < -60 and r < - 0.6 then
+            speed = 70 -- break when it is about to hit a wall
+        end
+
 		if steer < 60 then steer = 60 end
 		if steer > 120 then steer = 120 end 
 
 		set_speed(math.floor(speed + 0.5))
 		set_steer(math.floor(steer + 0.5))
-		if reverse_flag then sleep(0.4) end
+		if reverse_flag then sleep(0.2) end
 
 		hide_cursor()
 		save_cursor()

@@ -51,6 +51,7 @@ while true do
 			cnt = 0
 		end
 		cnt = cnt + 1
+		if cnt > 65535 then cnt = 11 end
 	end
 
 	-- Allow other processes to get the readings
