@@ -1,6 +1,6 @@
 -- Oversimplifed kalman filter for single IR sensor
 -- Copied from:
--- http://grehttp://greg.czerniak.info/node/5g.czerniak.info/node/5
+-- http://greg.czerniak.info/node/5g.czerniak.info/node/5
 require "class"
 
 Kalman = class(function(kal, q, r)

@@ -115,7 +115,7 @@ function rc_loop()
 end
 
 function auto_loop()
-	init_pid(35)
+	init_pid(45)
 	while true do
 		local ch = nonBlockInput.getChar()
 		if ch == 'q' or ch == '\4' then
@@ -148,11 +148,11 @@ function auto_loop()
 		local speed = 90
 		-- Front distance speed
 		if f > 120 then
-			speed = 105
-		elseif f > 90 then
-			speed = 105
-		elseif f > 70 then
-			if l < 50 then steer = 60 end
+			speed = 112
+		elseif f > 95 then
+			speed = 108
+		elseif f > 85 then
+			if l < 100 then steer = 60 end
 			speed = 98
 		elseif f < 40 then
 			-- Reverse when it is too near, flip the steering
@@ -165,7 +165,7 @@ function auto_loop()
 		end
 
 		local b, r = regression(hf)
-		if b < -60 and r < - 0.6 then
+		if b < -60 and r < - 0.6 and f < 110 then
             speed = 70 -- break when it is about to hit a wall
         end
 
